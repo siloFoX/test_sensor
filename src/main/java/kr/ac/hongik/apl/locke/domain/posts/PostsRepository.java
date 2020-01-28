@@ -1,4 +1,4 @@
-package com.example.myapp.domain.posts;
+package kr.ac.hongik.apl.locke.domain.posts;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

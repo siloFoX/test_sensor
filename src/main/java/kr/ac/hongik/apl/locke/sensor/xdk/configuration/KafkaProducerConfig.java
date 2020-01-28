@@ -1,4 +1,4 @@
-package com.example.myapp.configuration;
+package kr.ac.hongik.apl.locke.sensor.xdk.configuration;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;

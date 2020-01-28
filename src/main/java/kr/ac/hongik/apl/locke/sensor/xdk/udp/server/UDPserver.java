@@ -1,17 +1,12 @@
-package com.example.myapp.udp.server;
+package kr.ac.hongik.apl.locke.sensor.xdk.udp.server;
 
 import java.net.*;
 import java.io.*;
-import java.util.HashMap;
 import java.util.Map;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import com.example.myapp.controller.KafkaProducer;
+import kr.ac.hongik.apl.locke.sensor.xdk.controller.KafkaProducer;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +40,7 @@ public class UDPserver { // todo : Comment, Make it spring
 
                 // todo : T1 : mv to DB
 
-                System.out.println("Data send success : " + str.substring(0, 10) + " ...");
+                System.out.println("Data send success");
                 datagramSocket.send(datagramPacket);
 
             }

@@ -1,22 +1,14 @@
-package com.example.myapp.udp.client;
+package kr.ac.hongik.apl.locke.sensor.xdk.udp.client;
 
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.*;
-import java.sql.CallableStatement;
 
-@Slf4j
 @Component
 public class UDPclient {
     // test client
-    // todo : Move to test dir
 
     private static String str;
 //    private BufferedReader file; // Usage : Sending when I want
