@@ -69,10 +69,12 @@ public class KafkaProducer {
 //
 //    }
 
-    public void setRecentSensorData (String recentSensorData) {
+    public void setAndSendRecentSensorData (String recentSensorData) {
         // Get sensor data from UDP server and store it to temporary buffer(called sensorData)
 
         try {
+
+            // todo : Get data from DAO
 
             mappedSensor = objectMapper.readValue(recentSensorData, new TypeReference<Map<String, String>>() {}); // Preprocess : Json to Map
 //            sensorData.add(mappedSensor);

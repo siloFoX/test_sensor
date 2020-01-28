@@ -1,6 +1,7 @@
 package kr.ac.hongik.apl.locke.sensor.xdk.udp.client;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -10,13 +11,13 @@ import java.net.*;
 public class UDPclient {
     // test client
 
-    private static String str;
+    private String str;
 //    private BufferedReader file; // Usage : Sending when I want
-    private static int serverPort;
-    private static final int CLIENT_PORT = 2000; // target port
+    private int serverPort;
+    private int CLIENT_PORT = 2000; // target port
 
-    private static InetAddress serverAddress; // IP Address Wrapper
-    private static DatagramSocket datagramSocket; // Port socket
+    private InetAddress serverAddress; // IP Address Wrapper
+    private DatagramSocket datagramSocket; // Port socket
 
     @Autowired (required = false) // Off the Bean require
     public UDPclient(String serverIp, int serverPort) {
@@ -49,7 +50,9 @@ public class UDPclient {
             e.printStackTrace();
         }
     }
-    public static void sendJsonData() {
+
+//    @Scheduled(fixedRate = 1000)
+    public void sendJsonData() {
         // Send mock data every 1.1 second
 
         try {
@@ -79,11 +82,12 @@ public class UDPclient {
 
     public static void main(String[] args) throws SocketException, UnknownHostException, InterruptedException {
 
-        new UDPclient("192.168.0.72", 3500); // Mockup port 2000
+        UDPclient client = new UDPclient("192.168.0.72", 3500); // Mockup port 2000
         while (true) {
 
-            UDPclient.sendJsonData();
+            client.sendJsonData();
             Thread.sleep(1000);
         }
+//        Thread.sleep(5000);
     }
 }

@@ -2,9 +2,6 @@ package kr.ac.hongik.apl.locke.sensor.xdk.udp.server;
 
 import java.net.*;
 import java.io.*;
-import java.util.Map;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import kr.ac.hongik.apl.locke.sensor.xdk.controller.KafkaProducer;
 
@@ -14,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class UDPserver { // todo : Comment, Make it spring
+public class UDPserver { // todo : Make it spring
 
     KafkaProducer kafkaProducer = new KafkaProducer();
 
@@ -23,25 +20,23 @@ public class UDPserver { // todo : Comment, Make it spring
 
         try {
 
-            DatagramSocket datagramSocket = new DatagramSocket(port);
-            ObjectMapper objectMapper = new ObjectMapper();
-            Map<String, String> map;
+            DatagramSocket datagramSocket = new DatagramSocket(port); // Mapping socket with port
 
             while (true) {
 
                 byte buffer[] = new byte[512];
-                DatagramPacket datagramPacket = new DatagramPacket(buffer, buffer.length);
+                DatagramPacket datagramPacket = new DatagramPacket(buffer, buffer.length); // Mapping buffer with packet
 
                 System.out.println("ready");
-                datagramSocket.receive(datagramPacket);
+                datagramSocket.receive(datagramPacket); // Wait until receive packet
 
-                String str = new String(datagramPacket.getData());
-                kafkaProducer.setRecentSensorData(str);
+                String str = new String(datagramPacket.getData()); // Extract String data from byte packet
+                kafkaProducer.setAndSendRecentSensorData(str);
 
                 // todo : T1 : mv to DB
 
                 System.out.println("Data send success");
-                datagramSocket.send(datagramPacket);
+                datagramSocket.send(datagramPacket); // Send HeartBeat
 
             }
 
