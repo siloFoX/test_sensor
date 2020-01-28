@@ -1,4 +1,4 @@
-package com.example.myapp.udp.client;
+package com.example.myapp.udp.server;
 
 import java.net.*;
 import java.io.*;
@@ -11,8 +11,19 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class UDPserver {
+import com.example.myapp.controller.KafkaProducer;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Slf4j
+@Component
+public class UDPserver { // todo : Comment, Make it spring
+
+    KafkaProducer kafkaProducer = new KafkaProducer();
+
+    @Autowired(required = false)
     public UDPserver (int port) {
 
         try {
@@ -21,7 +32,7 @@ public class UDPserver {
             ObjectMapper objectMapper = new ObjectMapper();
             Map<String, String> map;
 
-            while (true) { // todo : T1 RUNNABLE
+            while (true) {
 
                 byte buffer[] = new byte[512];
                 DatagramPacket datagramPacket = new DatagramPacket(buffer, buffer.length);
@@ -30,17 +41,15 @@ public class UDPserver {
                 datagramSocket.receive(datagramPacket);
 
                 String str = new String(datagramPacket.getData());
-                map = objectMapper.readValue(str, new TypeReference<Map<String, String>>(){});
+                kafkaProducer.setRecentSensorData(str);
 
-
-                // todo : Kafka Producer
                 // todo : T1 : mv to DB
 
-                System.out.println(" : " + map.get("RH"));
+                System.out.println("Data send success : " + str.substring(0, 10) + " ...");
                 datagramSocket.send(datagramPacket);
+
             }
-        } catch (JsonParseException e) {
-            e.printStackTrace();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
