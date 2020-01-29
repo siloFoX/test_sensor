@@ -1,25 +1,30 @@
 package kr.ac.hongik.apl.locke.sensor.xdk.udp.client;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
 import java.net.*;
 
-@Component
+@SpringBootTest
+@RunWith(SpringRunner.class)
 public class UDPclient {
     // test client
 
     private String str;
-//    private BufferedReader file; // Usage : Sending when I want
+    //    private BufferedReader file; // Usage : Sending when I want
     private int serverPort;
     private int CLIENT_PORT = 2000; // target port
 
     private InetAddress serverAddress; // IP Address Wrapper
     private DatagramSocket datagramSocket; // Port socket
 
-    @Autowired (required = false) // Off the Bean require
+    @Autowired(required = false) // Off the Bean require
     public UDPclient(String serverIp, int serverPort) {
         // constructor
 
@@ -51,7 +56,7 @@ public class UDPclient {
         }
     }
 
-//    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedRate = 1000)
     public void sendJsonData() {
         // Send mock data every 1.1 second
 
@@ -82,7 +87,9 @@ public class UDPclient {
 
     public static void main(String[] args) throws SocketException, UnknownHostException, InterruptedException {
 
-        UDPclient client = new UDPclient("192.168.0.72", 3500); // Mockup port 2000
+        // todo : Thread 로 test 구현현
+
+       UDPclient client = new UDPclient("192.168.0.72", 3500); // Mockup port 2000
         while (true) {
 
             client.sendJsonData();
@@ -91,3 +98,5 @@ public class UDPclient {
 //        Thread.sleep(5000);
     }
 }
+
+

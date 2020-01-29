@@ -1,4 +1,4 @@
-package kr.ac.hongik.apl.locke.sensor.xdk.configuration;
+package kr.ac.hongik.apl.locke.sensor.xdk.kafka.configuration;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;

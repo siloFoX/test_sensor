@@ -1,4 +1,4 @@
-package kr.ac.hongik.apl.locke.sensor.xdk.controller;
+package kr.ac.hongik.apl.locke.sensor.xdk.kafka.controller;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -34,7 +34,7 @@ public class KafkaProducer {
 
     private static Map mappedSensor;
 
-    private static final String TOPIC = "Lee1";
+    private static final String TOPIC = "chanki-buffered";
 
 //    List<Object> sensorData = new ArrayList<>();
 //    List<Object> sensorBuffer = new ArrayList<>();
@@ -79,7 +79,7 @@ public class KafkaProducer {
             mappedSensor = objectMapper.readValue(recentSensorData, new TypeReference<Map<String, String>>() {}); // Preprocess : Json to Map
 //            sensorData.add(mappedSensor);
             inputDateTime();
-            kafkaTemplate.send(TOPIC, mappedSensor); // Directly send
+//            kafkaTemplate.send(TOPIC, mappedSensor); // Directly send
             System.out.println("kafka Send success : { topic : " + TOPIC + " data : " + mappedSensor.toString() + " }");
 
         } catch (JsonProcessingException e) {

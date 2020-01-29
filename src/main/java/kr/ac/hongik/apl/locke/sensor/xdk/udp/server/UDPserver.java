@@ -3,17 +3,21 @@ package kr.ac.hongik.apl.locke.sensor.xdk.udp.server;
 import java.net.*;
 import java.io.*;
 
-import kr.ac.hongik.apl.locke.sensor.xdk.controller.KafkaProducer;
 
+import kr.ac.hongik.apl.locke.sensor.xdk.kafka.controller.KafkaProducer;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class UDPserver { // todo : Make it spring
+public class UDPserver implements InitializingBean, DisposableBean { // todo : Make it spring
 
     KafkaProducer kafkaProducer = new KafkaProducer();
+
+    // todo : Map 으로 Bean 만들고 Autowired 하자
 
     @Autowired(required = false)
     public UDPserver (int port) {
@@ -47,5 +51,16 @@ public class UDPserver { // todo : Make it spring
 
     public static void main(String[] args) throws Exception {
         new UDPserver(3500);
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        // todo : 여기서 실행 하니까 startService 만들기
+        System.out.println("hello");
+    }
+
+    @Override
+    public void destroy() throws Exception {
+        // todo : 파괴될 때 DB 세팅 끝내고 죽게
     }
 }
