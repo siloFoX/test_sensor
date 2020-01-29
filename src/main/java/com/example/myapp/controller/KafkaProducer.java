@@ -66,8 +66,8 @@ public class KafkaProducer {
         String date = dateFormat.format(new Date());
         Date today = Calendar.getInstance().getTime();
         String currentTime = timeStamp.format(today);
-        Date ddtt = timeStamp.parse(currentTime);
-        long epochTime = ddtt.getTime();
+        Date timeStamp = this.timeStamp.parse(currentTime);
+        long epochTime = timeStamp.getTime();
         SensorData info = new SensorData(date,time,epochTime);
         mongoTemplate.insert(info);
         Map data = info.toMap();
