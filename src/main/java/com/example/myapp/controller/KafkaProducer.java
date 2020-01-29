@@ -1,20 +1,20 @@
 package com.example.myapp.controller;
 
+import com.example.myapp.mongoDB.SensorData;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component
 @Slf4j
@@ -22,6 +22,9 @@ public class KafkaProducer {
 
     @Autowired
     KafkaTemplate<String, Object> kafkaTemplate;
+
+    @Autowired
+    MongoTemplate mongoTemplate;
 
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -31,6 +34,7 @@ public class KafkaProducer {
     int timeOut=0;
     private static final SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yy:MM:dd");
+    SimpleDateFormat timeStamp = new SimpleDateFormat("MMM dd yyyy HH:mm:ss.SSS zzz");
 
     // 1초마다 데이터를 kafka에 저장 및 로컬 버퍼에 저장
     @Scheduled(fixedRate = 1000)
@@ -57,12 +61,16 @@ public class KafkaProducer {
 
     // 1.1초마다 데이터 생성 후 임시 버퍼에 담기
     @Scheduled(fixedRate = 1100 )
-    public void data() throws IOException {
+    public void data() throws IOException, ParseException {
         String time = timeFormat.format(new Date());
         String date = dateFormat.format(new Date());
-        String jsonSensor = "{\"date\":\""+date+"\",\"time\":\""+time+"\"}";
-        Map objectSensor = objectMapper.readValue(jsonSensor, new TypeReference<Map<String,String>>() {});
-        sensorData.add(objectSensor);
+        Date today = Calendar.getInstance().getTime();
+        String currentTime = timeStamp.format(today);
+        Date ddtt = timeStamp.parse(currentTime);
+        long epochTime = ddtt.getTime();
+        SensorData info = new SensorData(date,time,epochTime);
+        mongoTemplate.insert(info);
+        Map data = info.toMap();
+        sensorData.add(data);
     }
-
 }
