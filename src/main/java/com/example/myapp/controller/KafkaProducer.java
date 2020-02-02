@@ -56,7 +56,6 @@ public class KafkaProducer {
             }
             sensorData.clear(); // 임시 버퍼 초기화
         }
-
     }
 
     // 1.1초마다 데이터 생성 후 임시 버퍼에 담기
