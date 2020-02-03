@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class UDPserver implements InitializingBean, DisposableBean { // todo : Make it spring
+public class UDPserver implements InitializingBean, DisposableBean { // todo : Make it Spring
 
     KafkaProducer kafkaProducer = new KafkaProducer();
 
@@ -53,6 +53,7 @@ public class UDPserver implements InitializingBean, DisposableBean { // todo : M
         new UDPserver(3500);
     }
 
+    // todo : Actuator 필요함
     @Override
     public void afterPropertiesSet() throws Exception {
         // todo : 여기서 실행 하니까 startService 만들기

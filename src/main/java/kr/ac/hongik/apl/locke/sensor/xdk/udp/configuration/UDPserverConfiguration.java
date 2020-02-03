@@ -1,6 +1,23 @@
 package kr.ac.hongik.apl.locke.sensor.xdk.udp.configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
 public class UDPserverConfiguration {
 
-    // todo : Impl server config and Bean 
+    int port = 3500;
+
+    @Autowired
+    public UDPserverConfiguration (int port) {
+
+        this.port = port;
+    }
+
+    @Bean
+    public int UDPserverPort () {
+
+        return port;
+    }
 }

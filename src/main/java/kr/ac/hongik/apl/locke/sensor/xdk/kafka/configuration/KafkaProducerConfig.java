@@ -20,10 +20,16 @@ import java.util.Map;
 @EnableKafka
 public class KafkaProducerConfig {
 
+    private final Environment env;
+
     @Autowired
-    private Environment env;
+    public KafkaProducerConfig(Environment env) {
+
+        this.env = env;
+    }
 
     public Map<String, Object> producerConfigs() {
+
         Map<String, Object> props = new HashMap<>();
 
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, env.getProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG));
@@ -34,16 +40,19 @@ public class KafkaProducerConfig {
         props.put(ProducerConfig.ACKS_CONFIG, env.getProperty(ProducerConfig.ACKS_CONFIG));
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+
         return props;
     }
 
     public ProducerFactory<String, Object> producerFactory() {
+
         return new DefaultKafkaProducerFactory<>(producerConfigs());
     }
 
     @Bean
     public KafkaTemplate<String, Object> kafkaTemplate() {
-        // Bean을 통하여 의존성 주입
+        // Bean 을 통하여 의존성 주입
+
         return new KafkaTemplate<>(producerFactory());
     }
 }

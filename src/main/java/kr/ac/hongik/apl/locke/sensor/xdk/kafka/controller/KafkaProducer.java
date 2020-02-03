@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j; // log for java
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,14 +28,20 @@ import java.util.Map;
 @Setter
 public class KafkaProducer {
 
-    @Autowired
     KafkaTemplate<String, Object> kafkaTemplate;
-
     ObjectMapper objectMapper = new ObjectMapper();
 
     private static Map mappedSensor;
-
     private static final String TOPIC = "chanki-buffered";
+
+    public KafkaProducer(KafkaTemplate<String, Object> kafkaTemplate) {
+
+        this.kafkaTemplate = kafkaTemplate;
+    }
+
+    public KafkaProducer() {
+
+    }
 
 //    List<Object> sensorData = new ArrayList<>();
 //    List<Object> sensorBuffer = new ArrayList<>();
