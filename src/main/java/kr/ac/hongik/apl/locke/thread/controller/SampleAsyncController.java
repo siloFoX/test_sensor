@@ -21,17 +21,17 @@ public class SampleAsyncController {
     private AsyncConfig asyncConfig;
 
     @RequestMapping("/sample/sampleTask.do")
-    public ModelAndView doTask(HttpServletRequest request, HttpServletResponse response) thorws Exception {
+        public ModelAndView doTask(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        try {
+            try {
 
-            asyncTaskSample.executorSample("a");
-        } catch (TaskRejectedException e) {
-            e.printStackTrace();
-        }
+                asyncTaskSample.executorSample("a");
+            } catch (TaskRejectedException e) {
+                e.printStackTrace();
+            }
 
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("sample/sampleTask");
+            ModelAndView mav = new ModelAndView();
+//            mav.setViewName("thread/sample/sampleTask");
         return mav;
     }
 }

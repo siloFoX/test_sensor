@@ -5,6 +5,7 @@ import java.io.*;
 
 
 import kr.ac.hongik.apl.locke.sensor.xdk.kafka.controller.KafkaProducer;
+import kr.ac.hongik.apl.locke.sensor.xdk.udp.configuration.UDPserverConfiguration;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -16,15 +17,16 @@ import org.springframework.stereotype.Component;
 public class UDPserver implements InitializingBean, DisposableBean { // todo : Make it Spring
 
     KafkaProducer kafkaProducer = new KafkaProducer();
+    UDPserverConfiguration udpServerConfiguration = new UDPserverConfiguration(3500);
 
     // todo : Map 으로 Bean 만들고 Autowired 하자
 
-    @Autowired(required = false)
-    public UDPserver (int port) {
+    @Autowired
+    public UDPserver () {
 
         try {
 
-            DatagramSocket datagramSocket = new DatagramSocket(port); // Mapping socket with port
+            DatagramSocket datagramSocket = new DatagramSocket(udpServerConfiguration.getPort()); // Mapping socket with port
 
             while (true) {
 
@@ -50,7 +52,7 @@ public class UDPserver implements InitializingBean, DisposableBean { // todo : M
     }
 
     public static void main(String[] args) throws Exception {
-        new UDPserver(3500);
+        new UDPserver();
     }
 
     // todo : Actuator 필요함
